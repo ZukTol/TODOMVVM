@@ -13,8 +13,21 @@
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="TextAlignment" Value="Center"/>
     </Style>
+
+    <Style TargetType="CheckBox" x:Key="MarkAllCheckBox">
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+    </Style>
     
     <Style TargetType="TextBox" x:Key="AddNewToDoTextBoxStyle">
-            
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+    </Style>
+
+    <Style TargetType="Button" x:Key="ClearCompletedButtonStyle">
+        
     </Style>
 </ResourceDictionary>

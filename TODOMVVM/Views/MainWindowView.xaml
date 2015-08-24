@@ -12,10 +12,20 @@
         </ResourceDictionary>
     </Window.Resources>
     
-    <StackPanel>
+    <StackPanel Margin="10">
         <TextBlock Text="todos" Style="{StaticResource HeaderTextBlockStyle}"/>
-        <TextBox Text="{Binding NewToDoText, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource AddNewToDoTextBoxStyle}">
-            
-        </TextBox>
+        <Grid Height="65" Background="White">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <CheckBox Grid.Column="0" Content="" Style="{StaticResource MarkAllCheckBox}"/>
+            <TextBox Grid.Column="1" Text="{Binding NewToDoText, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource AddNewToDoTextBoxStyle}"/>
+        </Grid>
+        <ItemsControl ItemsSource="{Binding TodoList}"/>
+        <DockPanel LastChildFill="False">
+            <TextBlock DockPanel.Dock="Left"/>
+            <Button Content="Clear completed" DockPanel.Dock="Right" Style="{StaticResource ClearCompletedButtonStyle}"/>
+        </DockPanel>
     </StackPanel>
 </Window>

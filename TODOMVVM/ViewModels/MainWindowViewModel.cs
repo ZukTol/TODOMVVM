@@ -37,7 +37,7 @@ namespace TODOMVVM.ViewModels {
 				_todoList = value;
 				NotifyOfPropertyChange("TodoList");
 			}
-		} private BindableCollection<TodoTaskViewModel> _todoList;
+		} private BindableCollection<TodoTaskViewModel> _todoList = new BindableCollection<TodoTaskViewModel>();
 
 		#endregion Public properties
 
@@ -52,6 +52,17 @@ namespace TODOMVVM.ViewModels {
 				return;
 
 			var task = new TodoTaskViewModel(_eventAggregator) { TaskText = NewToDoText, IsCompleted = false, IsInEditMode = false };
+
+            TodoList.Add(task);
+
+		    NewToDoText = string.Empty;
 		}
-	}
+
+        public void DoClearSelected() {
+            for (int i = TodoList.Count - 1; i >= 0; i--) {
+                if(TodoList[i].IsCompleted)
+                    TodoList.RemoveAt(i);
+            }
+        }
+    }
 }

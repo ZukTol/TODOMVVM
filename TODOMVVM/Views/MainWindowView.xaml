@@ -1,6 +1,7 @@
 ﻿<Window x:Class="TODOMVVM.Views.MainWindowView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:cal="http://www.caliburnproject.org"
         WindowStartupLocation="CenterScreen"
         Style="{DynamicResource MainWindowStyle}"
         Width="500" SizeToContent="Height">
@@ -20,12 +21,12 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <CheckBox Grid.Column="0" Content="" Style="{StaticResource MarkAllCheckBox}"/>
-            <TextBox Grid.Column="1" Text="{Binding NewToDoText, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource AddNewToDoTextBoxStyle}"/>
+            <TextBox Grid.Column="1" Text="{Binding NewToDoText, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource AddNewToDoTextBoxStyle}" cal:Message.Attach="[Shortcut Enter] = [AddTaskToList]"/>
         </Grid>
         <ItemsControl ItemsSource="{Binding TodoList}"/>
         <DockPanel LastChildFill="False">
             <TextBlock DockPanel.Dock="Left"/>
-            <Button Content="Clear completed" DockPanel.Dock="Right" Style="{StaticResource ClearCompletedButtonStyle}"/>
+            <TextBlock Text="Clear completed" DockPanel.Dock="Right" Style="{StaticResource ClearCompletedButtonStyle}" cal:Message.Attach="[MouseLeftButtonDown]=[DoClearSelected]"/>
         </DockPanel>
     </StackPanel>
 </Window>

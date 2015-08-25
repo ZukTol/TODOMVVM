@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using Caliburn.Micro;
+using TODOMVVM.Infrastructure;
 using TODOMVVM.ViewModels;
 
 namespace TODOMVVM {
@@ -16,6 +18,9 @@ namespace TODOMVVM {
         }
 
         protected override void Configure() {
+            var currentParser = Parser.CreateTrigger;
+            Parser.CreateTrigger = (target, triggerText) => ShortcutParser.CanParse(triggerText) ? ShortcutParser.CreateTrigger(triggerText) : currentParser(target, triggerText);
+
             _container = new SimpleContainer();
 
             _container.Singleton<IWindowManager, WindowManager>();

@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using TODOMVVM.Infrastructure;
 
 namespace TODOMVVM.ViewModels {
-    public class MainWindowViewModel : Screen {
+    public class MainWindowViewModel : Screen, IHandle<TaskCompletedChangedMessage> {
 		private readonly IEventAggregator _eventAggregator;
 		public override string DisplayName { get { return "TODOMVVM"; } set { } }
 
@@ -39,6 +40,13 @@ namespace TODOMVVM.ViewModels {
 			}
 		} private BindableCollection<TodoTaskViewModel> _todoList = new BindableCollection<TodoTaskViewModel>();
 
+		public int CompletedCount {
+			get { return TodoList.Count(t => t.IsCompleted); }
+		}
+
+		public bool HasTasks {
+			get { return TodoList.Any(); }
+		}
 		#endregion Public properties
 
 		public MainWindowViewModel(IEventAggregator eventAggregator) {
@@ -56,13 +64,19 @@ namespace TODOMVVM.ViewModels {
             TodoList.Add(task);
 
 		    NewToDoText = string.Empty;
+			NotifyOfPropertyChange("HasTasks");
 		}
 
-        public void DoClearSelected() {
+        public void DoClearCompleted() {
             for (int i = TodoList.Count - 1; i >= 0; i--) {
                 if(TodoList[i].IsCompleted)
                     TodoList.RemoveAt(i);
             }
-        }
-    }
+			NotifyOfPropertyChange("CompletedCount");
+		}
+
+		public void Handle(TaskCompletedChangedMessage message) {
+			NotifyOfPropertyChange("CompletedCount");
+		}
+	}
 }

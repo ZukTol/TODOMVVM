@@ -2,9 +2,12 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:TODOMVVM"
+             xmlns:infrastructure="clr-namespace:TODOMVVM.Infrastructure"
              >
     <Application.Resources>
         <ResourceDictionary>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilyConverter"/>
+            <infrastructure:BooleanToVisibityInvertedConverter x:Key="BooleanToVisibityInvertedConverter"/>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
                     <local:AppBootstrapper x:Key="Bootstrapper" />

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using TODOMVVM.Infrastructure;
 
 namespace TODOMVVM.ViewModels {
 	public class TodoTaskViewModel : PropertyChangedBase {
@@ -11,7 +12,10 @@ namespace TODOMVVM.ViewModels {
 
 		public bool IsCompleted {
 			get { return _isCompleted; }
-			set { _isCompleted = value; NotifyOfPropertyChange("IsCompleted"); }
+			set {
+				_isCompleted = value;
+				NotifyOfPropertyChange("IsCompleted");
+			}
 		} bool _isCompleted;
 
 		public bool IsInEditMode {
@@ -28,5 +32,9 @@ namespace TODOMVVM.ViewModels {
 		public TodoTaskViewModel(IEventAggregator eventAggregator) {
 			_eventAggregator = eventAggregator;
 		}
-	}
+
+		public void InformTaskCompleted() {
+			_eventAggregator.PublishOnUIThread(new TaskCompletedChangedMessage());
+		}
+    }
 }

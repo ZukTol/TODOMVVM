@@ -2,6 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:cal="http://www.caliburnproject.org"
+        xmlns:infrastructure="clr-namespace:TODOMVVM.Infrastructure"
         WindowStartupLocation="CenterScreen"
         Style="{DynamicResource MainWindowStyle}"
         Width="500" SizeToContent="Height">
@@ -22,7 +23,9 @@
             </Grid.ColumnDefinitions>
             <CheckBox Grid.Column="0" Content="" IsChecked="{Binding IsMarkAllChecked}" cal:Message.Attach="OnMarkAllClicked"
                       Style="{StaticResource MarkAllCheckBox}" Visibility="{Binding HasTasks, Converter={StaticResource BooleanToVisibilyConverter}}"/>
-            <TextBox Grid.Column="1" Text="{Binding NewToDoText, UpdateSourceTrigger=PropertyChanged}" 
+            <!--<TextBox Grid.Column="1" Text="{Binding NewToDoText, UpdateSourceTrigger=PropertyChanged}" 
+                     Style="{StaticResource AddNewToDoTextBoxStyle}" cal:Message.Attach="[Shortcut Enter] = [AddTaskToList]"/>-->
+            <infrastructure:WatermarkTextBox Grid.Column="1" Text="{Binding NewToDoText, UpdateSourceTrigger=PropertyChanged}" WatermarkText="What needs to be done?"
                      Style="{StaticResource AddNewToDoTextBoxStyle}" cal:Message.Attach="[Shortcut Enter] = [AddTaskToList]"/>
         </Grid>
         <ItemsControl ItemsSource="{Binding TodoList}" Visibility="{Binding HasTasks, Converter={StaticResource BooleanToVisibilyConverter}}">

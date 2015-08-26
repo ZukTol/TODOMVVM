@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    >
+                    xmlns:infrastructure="clr-namespace:TODOMVVM.Infrastructure">
     
     <Style TargetType="Window" x:Key="MainWindowStyle">
         <Setter Property="Background" Value="#F5F5F5"/>
@@ -18,9 +18,8 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
     </Style>
-    
-    <Style TargetType="TextBox" x:Key="AddNewToDoTextBoxStyle">
-        <Setter Property="BorderThickness" Value="0"/>
+
+    <Style TargetType="{x:Type infrastructure:WatermarkTextBox}" BasedOn="{StaticResource WatermarkTextBox}" x:Key="AddNewToDoTextBoxStyle">
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>

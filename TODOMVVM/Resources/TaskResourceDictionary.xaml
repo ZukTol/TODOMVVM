@@ -52,10 +52,14 @@
         <Setter Property="HorizontalAlignment" Value="Center"/>
     </Style>
 
+    <Style TargetType="TextBox" x:Key="TaskEditTextBoxStyle">
+        <Setter Property="FontSize" Value="24"/>
+    </Style>
+    
     <DataTemplate x:Key="TodoTaskDataTemplate" DataType="{x:Type vm:TodoTaskViewModel}">
         <StackPanel>
             <Border Visibility="{Binding IsInEditMode, Converter={StaticResource BooleanToVisibityInvertedConverter}}"
-                Style="{StaticResource TaskBorderStyle}">
+                Style="{StaticResource TaskBorderStyle}" cal:Message.Attach="[MouseLeftButtonDown]=[OnMouseLeftButtonDown($eventArgs)]">
                 <Grid >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="40"/>
@@ -76,10 +80,11 @@
 
                 </Grid>
             </Border>
-            <Border Visibility="{Binding IsInEditMode, Converter={StaticResource BooleanToVisibilyConverter}}"
+            <Border Name="EditorBorder" Visibility="{Binding IsInEditMode, Converter={StaticResource BooleanToVisibilyConverter}}"
                 Style="{StaticResource TaskBorderStyle}">
                 <Grid>
-
+                    <TextBox Name="TaskEditor" Text="{Binding NewTaskText}" Style="{StaticResource TaskEditTextBoxStyle}" 
+                             cal:Message.Attach="[LostFocus]=[DiscardChanges];[LostKeyboardFocus]=[DiscardChanges]"/>
                 </Grid>
             </Border>
         </StackPanel>
@@ -88,6 +93,9 @@
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter TargetName="DeleteButton" Property="Visibility" Value="Visible"/>
             </Trigger>
+            <DataTrigger Binding="{Binding IsInEditMode}" Value="True">
+                <Setter TargetName="EditorBorder" Property="FocusManager.FocusedElement" Value="{Binding ElementName=TaskEditor}"/>
+            </DataTrigger>
         </DataTemplate.Triggers>
     </DataTemplate>
 </ResourceDictionary>

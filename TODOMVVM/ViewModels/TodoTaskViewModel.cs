@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using TODOMVVM.Infrastructure;
+using System.Windows.Input;
+using System.Diagnostics;
 
 namespace TODOMVVM.ViewModels {
 	public class TodoTaskViewModel : PropertyChangedBase {
@@ -29,9 +31,17 @@ namespace TODOMVVM.ViewModels {
 			set { _taskText = value; NotifyOfPropertyChange("TaskText"); }
 		} string _taskText;
 
+		public string NewTaskText {
+			get { return _newTaskText; }
+			set { _newTaskText = value; NotifyOfPropertyChange("NewTaskText"); }
+		} string _newTaskText;
+
 		public TodoTaskViewModel(IEventAggregator eventAggregator) {
             _eventAggregator = eventAggregator;
-        }
+
+			var currentParser = Parser.CreateTrigger;
+			Parser.CreateTrigger = (target, triggerText) => ShortcutParser.CanParse(triggerText) ? ShortcutParser.CreateTrigger(triggerText) : currentParser(target, triggerText);
+		}
 
         public void InformTaskCompleted() {
             _eventAggregator.PublishOnUIThread(new TaskCompletedChangedMessage ());
@@ -39,6 +49,27 @@ namespace TODOMVVM.ViewModels {
 
 		public void DeleteTask() {
 			_eventAggregator.PublishOnUIThread(new TaskDeleteMessage { task = this });
+        }
+
+		public void OnMouseLeftButtonDown(MouseButtonEventArgs e) {
+			if(e.ClickCount == 2) {
+				IsInEditMode = true;
+				NewTaskText = TaskText;
+			}
+		}
+
+		public void SaveChanges() {
+			NewTaskText = NewTaskText.Trim();
+			if (string.IsNullOrEmpty(NewTaskText))
+				return;
+
+			TaskText = NewTaskText;
+			IsInEditMode = false;
+		}
+
+		public void DiscardChanges() {
+			NewTaskText = string.Empty;
+			IsInEditMode = false;
         }
     }
 }

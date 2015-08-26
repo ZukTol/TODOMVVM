@@ -20,7 +20,7 @@
                 <ColumnDefinition Width="40"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <CheckBox Grid.Column="0" Content="" IsChecked="{Binding IsMarkAllChecked}"
+            <CheckBox Grid.Column="0" Content="" IsChecked="{Binding IsMarkAllChecked}" cal:Message.Attach="OnMarkAllClicked"
                       Style="{StaticResource MarkAllCheckBox}" Visibility="{Binding HasTasks, Converter={StaticResource BooleanToVisibilyConverter}}"/>
             <TextBox Grid.Column="1" Text="{Binding NewToDoText, UpdateSourceTrigger=PropertyChanged}" 
                      Style="{StaticResource AddNewToDoTextBoxStyle}" cal:Message.Attach="[Shortcut Enter] = [AddTaskToList]"/>

@@ -5,5 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace TODOMVVM.Infrastructure {
-	public class TaskCompletedChangedMessage { }
+    public class TaskCompletedChangedMessage {
+    }
 }

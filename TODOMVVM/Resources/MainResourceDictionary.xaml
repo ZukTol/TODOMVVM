@@ -50,4 +50,11 @@
         <Setter Property="Background" Value="White"/>
         <Setter Property="BorderThickness" Value="0 0 0 1"/>
     </Style>
+    
+    <Style TargetType="TextBlock" x:Key="TaskMessageStyle">
+        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="TextAlignment" Value="Left"/>
+    </Style>
 </ResourceDictionary>

@@ -22,14 +22,17 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    
                 </Grid.RowDefinitions>
 
-                <CheckBox Grid.Column="0" Grid.Row="0" Content="" IsChecked="{Binding IsCompleted}" cal:Message.Attach="InformTaskCompleted" Style="{StaticResource MarkAllCheckBox}"/>
-                <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding TaskText}"/>
+                <Rectangle Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" Stroke="DimGray" Height="1" StrokeThickness="1" StrokeDashArray="1 4" SnapsToDevicePixels="True"/>
+                
+                <CheckBox Grid.Column="0" Grid.Row="1" Content="" IsChecked="{Binding IsCompleted}" cal:Message.Attach="InformTaskCompleted" Style="{StaticResource MarkAllCheckBox}"/>
+                <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding TaskText}" Style="{StaticResource TaskMessageStyle}"/>
 
-                <Rectangle Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Stroke="#FF000000" Height="1" StrokeThickness="1" StrokeDashArray="4 4" SnapsToDevicePixels="True"/>
+                
             </Grid>
         </Border>
         <Border Visibility="{Binding IsInEditMode, Converter={StaticResource BooleanToVisibilyConverter}}"

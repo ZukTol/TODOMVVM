@@ -30,11 +30,11 @@ namespace TODOMVVM.ViewModels {
 		} string _taskText;
 
 		public TodoTaskViewModel(IEventAggregator eventAggregator) {
-			_eventAggregator = eventAggregator;
-		}
+            _eventAggregator = eventAggregator;
+        }
 
-		public void InformTaskCompleted() {
-			_eventAggregator.PublishOnUIThread(new TaskCompletedChangedMessage());
-		}
+        public void InformTaskCompleted() {
+            _eventAggregator.PublishOnUIThread(new TaskCompletedChangedMessage ());
+        }
     }
 }

@@ -26,9 +26,6 @@ namespace TODOMVVM.ViewModels {
 			set {
 				_isMarkAllChecked = value;
 				NotifyOfPropertyChange("IsMarkAllChecked");
-				foreach(var task in TodoList) {
-					task.IsCompleted = _isMarkAllChecked;
-				}
 			}
 		} bool _isMarkAllChecked;
 
@@ -65,6 +62,7 @@ namespace TODOMVVM.ViewModels {
 
 		    NewToDoText = string.Empty;
 			NotifyOfPropertyChange("HasTasks");
+		    IsMarkAllChecked = false;
 		}
 
         public void DoClearCompleted() {
@@ -75,8 +73,16 @@ namespace TODOMVVM.ViewModels {
 			NotifyOfPropertyChange("CompletedCount");
 		}
 
-		public void Handle(TaskCompletedChangedMessage message) {
+        public void OnMarkAllClicked() {
+            foreach (var task in TodoList) {
+                task.IsCompleted = IsMarkAllChecked;
+            }
+        }
+
+        public void Handle(TaskCompletedChangedMessage message) {
 			NotifyOfPropertyChange("CompletedCount");
-		}
+
+            IsMarkAllChecked = TodoList.All(t => t.IsCompleted);
+        }
 	}
 }

@@ -27,7 +27,6 @@ namespace TODOMVVM {
             _container.Singleton<IEventAggregator, EventAggregator>();
 
             _container.Singleton<MainWindowViewModel>();
-			_container.PerRequest<TodoTaskViewModel>();
 		}
 
         protected override object GetInstance(Type service, string key) {

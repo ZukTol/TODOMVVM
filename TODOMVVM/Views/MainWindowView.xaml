@@ -16,16 +16,14 @@
 
     <StackPanel Margin="10">
         <TextBlock Text="todos" Style="{StaticResource HeaderTextBlockStyle}"/>
-        <Grid Height="65" Background="#fefefe">
+        <Grid Height="65" Background="#fefefe" FocusManager.FocusedElement="{Binding ElementName=TaskInput}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="40"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <CheckBox Grid.Column="0" Content="" IsChecked="{Binding IsMarkAllChecked}" cal:Message.Attach="OnMarkAllClicked"
                       Style="{StaticResource MarkAllCheckBox}" Visibility="{Binding HasTasks, Converter={StaticResource BooleanToVisibilyConverter}}"/>
-            <!--<TextBox Grid.Column="1" Text="{Binding NewToDoText, UpdateSourceTrigger=PropertyChanged}" 
-                     Style="{StaticResource AddNewToDoTextBoxStyle}" cal:Message.Attach="[Shortcut Enter] = [AddTaskToList]"/>-->
-            <infrastructure:WatermarkTextBox Grid.Column="1" Text="{Binding NewToDoText, UpdateSourceTrigger=PropertyChanged}" WatermarkText="What needs to be done?"
+            <infrastructure:WatermarkTextBox x:Name="TaskInput" Grid.Column="1" Text="{Binding NewToDoText, UpdateSourceTrigger=PropertyChanged}" WatermarkText="What needs to be done?"
                      Style="{StaticResource AddNewToDoTextBoxStyle}" cal:Message.Attach="[Shortcut Enter] = [AddTaskToList]"/>
         </Grid>
         <ItemsControl ItemsSource="{Binding TodoList}" Visibility="{Binding HasTasks, Converter={StaticResource BooleanToVisibilyConverter}}">
@@ -37,7 +35,10 @@
         </ItemsControl>
         <Border Visibility="{Binding HasTasks, Converter={StaticResource BooleanToVisibilyConverter}}" Style="{StaticResource FooterStyle}">
             <DockPanel LastChildFill="False">
-                <TextBlock DockPanel.Dock="Left"/>
+                <TextBlock DockPanel.Dock="Left" Style="{StaticResource ClearCompletedButtonStyle}">
+                    <Run Text="{Binding IncompletedCount, Mode=OneWay}" FontWeight="Bold"/>
+                    <Run Text="items left"/>
+                </TextBlock>
                 <TextBlock DockPanel.Dock="Right" Style="{StaticResource ClearCompletedButtonStyle}" cal:Message.Attach="[MouseLeftButtonDown]=[DoClearCompleted]">
                     <Run Text="Clear completed ("/>
                     <Run Text="{Binding CompletedCount, Mode=OneWay}"/>

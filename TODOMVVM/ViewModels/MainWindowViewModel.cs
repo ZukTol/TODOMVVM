@@ -41,6 +41,10 @@ namespace TODOMVVM.ViewModels {
 			get { return TodoList.Count(t => t.IsCompleted); }
 		}
 
+		public int IncompletedCount {
+			get { return TodoList.Count(t => !t.IsCompleted); }
+		}
+
 		public bool HasTasks {
 			get { return TodoList.Any(); }
 		}
@@ -61,8 +65,8 @@ namespace TODOMVVM.ViewModels {
             TodoList.Add(task);
 
 		    NewToDoText = string.Empty;
-			NotifyOfPropertyChange("HasTasks");
-		    IsMarkAllChecked = false;
+			UpdateLabels();
+			IsMarkAllChecked = false;
 		}
 
         public void DoClearCompleted() {
@@ -70,19 +74,26 @@ namespace TODOMVVM.ViewModels {
                 if(TodoList[i].IsCompleted)
                     TodoList.RemoveAt(i);
             }
-			NotifyOfPropertyChange("CompletedCount");
-		}
+			UpdateLabels();
+        }
 
         public void OnMarkAllClicked() {
             foreach (var task in TodoList) {
                 task.IsCompleted = IsMarkAllChecked;
             }
+			UpdateLabels();
         }
 
         public void Handle(TaskCompletedChangedMessage message) {
-			NotifyOfPropertyChange("CompletedCount");
+			UpdateLabels();
 
-            IsMarkAllChecked = TodoList.All(t => t.IsCompleted);
+			IsMarkAllChecked = TodoList.All(t => t.IsCompleted);
         }
+
+		void UpdateLabels() {
+			NotifyOfPropertyChange("CompletedCount");
+			NotifyOfPropertyChange("IncompletedCount");
+			NotifyOfPropertyChange("HasTasks");
+		}
 	}
 }

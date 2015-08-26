@@ -10,6 +10,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Resources/MainResourceDictionary.xaml"/>
+                <ResourceDictionary Source="../Resources/TaskResourceDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -26,12 +27,12 @@
             <infrastructure:WatermarkTextBox x:Name="TaskInput" Grid.Column="1" Text="{Binding NewToDoText, UpdateSourceTrigger=PropertyChanged}" WatermarkText="What needs to be done?"
                      Style="{StaticResource AddNewToDoTextBoxStyle}" cal:Message.Attach="[Shortcut Enter] = [AddTaskToList]"/>
         </Grid>
-        <ItemsControl ItemsSource="{Binding TodoList}" Visibility="{Binding HasTasks, Converter={StaticResource BooleanToVisibilyConverter}}">
-            <ItemsControl.ItemTemplate>
+        <ItemsControl ItemsSource="{Binding TodoList}" Visibility="{Binding HasTasks, Converter={StaticResource BooleanToVisibilyConverter}}" ItemTemplate="{StaticResource TodoTaskDataTemplate}">
+            <!--<ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <ContentControl cal:View.Model="{Binding}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" />
                 </DataTemplate>
-            </ItemsControl.ItemTemplate>
+            </ItemsControl.ItemTemplate>-->
         </ItemsControl>
         <Border Visibility="{Binding HasTasks, Converter={StaticResource BooleanToVisibilyConverter}}" Style="{StaticResource FooterStyle}">
             <DockPanel LastChildFill="False">

@@ -36,5 +36,9 @@ namespace TODOMVVM.ViewModels {
         public void InformTaskCompleted() {
             _eventAggregator.PublishOnUIThread(new TaskCompletedChangedMessage ());
         }
+
+		public void DeleteTask() {
+			_eventAggregator.PublishOnUIThread(new TaskDeleteMessage { task = this });
+        }
     }
 }

@@ -7,7 +7,7 @@ using Caliburn.Micro;
 using TODOMVVM.Infrastructure;
 
 namespace TODOMVVM.ViewModels {
-    public class MainWindowViewModel : Screen, IHandle<TaskCompletedChangedMessage> {
+    public class MainWindowViewModel : Screen, IHandle<TaskCompletedChangedMessage>, IHandle<TaskDeleteMessage> {
 		private readonly IEventAggregator _eventAggregator;
 		public override string DisplayName { get { return "TODOMVVM"; } set { } }
 
@@ -94,6 +94,13 @@ namespace TODOMVVM.ViewModels {
 			NotifyOfPropertyChange("CompletedCount");
 			NotifyOfPropertyChange("IncompletedCount");
 			NotifyOfPropertyChange("HasTasks");
+		}
+
+		public void Handle(TaskDeleteMessage message) {
+			if(message.task != null) {
+				TodoList.Remove(message.task);
+				UpdateLabels();
+            }
 		}
 	}
 }

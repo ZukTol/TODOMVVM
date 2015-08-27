@@ -37,6 +37,10 @@ namespace TODOMVVM.ViewModels {
 			}
 		} private BindableCollection<TodoTaskViewModel> _todoList = new BindableCollection<TodoTaskViewModel>();
 
+        public string ItemsLeftText {
+            get { return GetNumEnding(IncompletedCount, new[] {"item left", "items left", "items left"}); }
+        }
+
 		public int CompletedCount {
 			get { return TodoList.Count(t => t.IsCompleted); }
 		}
@@ -94,6 +98,7 @@ namespace TODOMVVM.ViewModels {
 			NotifyOfPropertyChange("CompletedCount");
 			NotifyOfPropertyChange("IncompletedCount");
 			NotifyOfPropertyChange("HasTasks");
+			NotifyOfPropertyChange("ItemsLeftText");
 		}
 
 		public void Handle(TaskDeleteMessage message) {
@@ -118,6 +123,37 @@ namespace TODOMVVM.ViewModels {
             if (null != editedTask) {
                 editedTask.DiscardChanges();
             }
+        }
+
+        /// <summary>
+        /// Функция возвращает окончание для множественного числа слова на основании числа и массива окончаний
+        /// </summary>
+        /// <param name="number">Число на основе которого нужно сформировать окончание</param>
+        /// <param name="endings">Массив слов или окончаний для чисел (1, 4, 5), например['яблоко', 'яблока', 'яблок']</param>
+        /// <returns></returns>
+        public static string GetNumEnding(int number, string[] endings) {
+            string strintEnding;
+            number = number % 100;
+            if (number >= 11 && number <= 19) {
+                strintEnding = endings[2];
+            }
+            else {
+                var i = number % 10;
+                switch (i) {
+                    case (1):
+                        strintEnding = endings[0];
+                        break;
+                    case (2):
+                    case (3):
+                    case (4):
+                        strintEnding = endings[1];
+                        break;
+                    default:
+                        strintEnding = endings[2];
+                        break;
+                }
+            }
+            return strintEnding;
         }
     }
 }

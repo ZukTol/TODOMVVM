@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using TODOMVVM.Infrastructure;
+using System.ComponentModel;
+using System.Windows.Data;
 
 namespace TODOMVVM.ViewModels {
     public class MainWindowViewModel : Screen, IHandle<TaskCompletedChangedMessage>, IHandle<TaskDeleteMessage> {
@@ -43,6 +45,8 @@ namespace TODOMVVM.ViewModels {
 		public MainWindowViewModel(IEventAggregator eventAggregator) {
 			_eventAggregator = eventAggregator;
 			_eventAggregator.Subscribe(this);
+
+			TodoListView = CollectionViewSource.GetDefaultView(TodoList);
 
 			ShowAllSelected = true;
 		}
@@ -109,26 +113,60 @@ namespace TODOMVVM.ViewModels {
 			NotifyOfPropertyChange("HasTasks");
 			NotifyOfPropertyChange("HasCompletedTasks");
 			NotifyOfPropertyChange("ItemsLeftText");
+
+			TodoListView.Refresh();
 		}
 		#endregion Labels
 
 		#region Filtering
 		public bool ShowAllSelected {
 			get { return _showAllSelected; }
-			set { _showAllSelected = value; NotifyOfPropertyChange("ShowAllSelected"); }
+			set {
+				_showAllSelected = value;
+				NotifyOfPropertyChange("ShowAllSelected");
+				if (value) {
+					TodoListView.Filter = null;
+					TodoListView.Refresh();
+				}
+			}
 		} bool _showAllSelected;
 
 		public bool ShowActiveSelected {
 			get { return _showActiveSelected; }
-			set { _showActiveSelected = value; NotifyOfPropertyChange("ShowActiveSelected"); }
+			set {
+				_showActiveSelected = value;
+				NotifyOfPropertyChange("ShowActiveSelected");
+				if (value) {
+					TodoListView.Filter = item => {
+						var task = (TodoTaskViewModel)item;
+						return !task.IsCompleted;
+					};
+					TodoListView.Refresh();
+				}
+			}
 		}
 		bool _showActiveSelected;
 
 		public bool ShowCompletedSelected {
 			get { return _showCompletedSelected; }
-			set { _showCompletedSelected = value; NotifyOfPropertyChange("ShowCompletedSelected"); }
+			set {
+				_showCompletedSelected = value;
+				NotifyOfPropertyChange("ShowCompletedSelected");
+				if (value) {
+					TodoListView.Filter = item => {
+						var task = (TodoTaskViewModel)item;
+						return task.IsCompleted;
+					};
+					TodoListView.Refresh();
+				}
+			}
 		}
 		bool _showCompletedSelected;
+
+		public ICollectionView TodoListView {
+			get { return _todoListView; }
+			set { _todoListView = value; NotifyOfPropertyChange("TodoListView"); }
+		} ICollectionView _todoListView;
 		#endregion Filtering
 
 		public void Handle(TaskDeleteMessage message) {

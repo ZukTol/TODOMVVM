@@ -28,7 +28,7 @@
             <infrastructure:WatermarkTextBox x:Name="TaskInput" Grid.Column="1" Text="{Binding NewToDoText, UpdateSourceTrigger=PropertyChanged}" WatermarkText="What needs to be done?"
                      Style="{StaticResource AddNewToDoTextBoxStyle}" />
         </Grid>
-        <ItemsControl ItemsSource="{Binding TodoList}" Visibility="{Binding HasTasks, Converter={StaticResource BooleanToVisibilyConverter}}" ItemTemplate="{StaticResource TodoTaskDataTemplate}"/>
+        <ItemsControl ItemsSource="{Binding TodoListView}" Visibility="{Binding HasTasks, Converter={StaticResource BooleanToVisibilyConverter}}" ItemTemplate="{StaticResource TodoTaskDataTemplate}"/>
 
         <Border Visibility="{Binding HasTasks, Converter={StaticResource BooleanToVisibilyConverter}}" Style="{StaticResource FooterStyle}">
             <Grid>

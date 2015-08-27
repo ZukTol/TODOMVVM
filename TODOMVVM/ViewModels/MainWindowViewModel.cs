@@ -37,30 +37,14 @@ namespace TODOMVVM.ViewModels {
 			}
 		} private BindableCollection<TodoTaskViewModel> _todoList = new BindableCollection<TodoTaskViewModel>();
 
-        public string ItemsLeftText {
-            get { return GetNumEnding(IncompletedCount, new[] {"item left", "items left", "items left"}); }
-        }
-
-		public int CompletedCount {
-			get { return TodoList.Count(t => t.IsCompleted); }
-		}
-
-		public int IncompletedCount {
-			get { return TodoList.Count(t => !t.IsCompleted); }
-		}
-
-		public bool HasTasks {
-			get { return TodoList.Any(); }
-		}
-
-		public bool HasCompletedTasks {
-			get { return TodoList.Any(t=>t.IsCompleted); }
-		}
+        
 		#endregion Public properties
 
 		public MainWindowViewModel(IEventAggregator eventAggregator) {
 			_eventAggregator = eventAggregator;
 			_eventAggregator.Subscribe(this);
+
+			ShowAllSelected = true;
 		}
 
 		public void AddTaskToList() {
@@ -75,7 +59,7 @@ namespace TODOMVVM.ViewModels {
 		    NewToDoText = string.Empty;
 			UpdateLabels();
 			IsMarkAllChecked = false;
-		}
+        }
 
         public void DoClearCompleted() {
             for (int i = TodoList.Count - 1; i >= 0; i--) {
@@ -98,6 +82,27 @@ namespace TODOMVVM.ViewModels {
 			IsMarkAllChecked = TodoList.All(t => t.IsCompleted);
         }
 
+		#region Labels
+		public string ItemsLeftText {
+			get { return GetNumEnding(IncompletedCount, new[] { "item left", "items left", "items left" }); }
+		}
+
+		public int CompletedCount {
+			get { return TodoList.Count(t => t.IsCompleted); }
+		}
+
+		public int IncompletedCount {
+			get { return TodoList.Count(t => !t.IsCompleted); }
+		}
+
+		public bool HasTasks {
+			get { return TodoList.Any(); }
+		}
+
+		public bool HasCompletedTasks {
+			get { return TodoList.Any(t => t.IsCompleted); }
+		}
+
 		void UpdateLabels() {
 			NotifyOfPropertyChange("CompletedCount");
 			NotifyOfPropertyChange("IncompletedCount");
@@ -105,6 +110,26 @@ namespace TODOMVVM.ViewModels {
 			NotifyOfPropertyChange("HasCompletedTasks");
 			NotifyOfPropertyChange("ItemsLeftText");
 		}
+		#endregion Labels
+
+		#region Filtering
+		public bool ShowAllSelected {
+			get { return _showAllSelected; }
+			set { _showAllSelected = value; NotifyOfPropertyChange("ShowAllSelected"); }
+		} bool _showAllSelected;
+
+		public bool ShowActiveSelected {
+			get { return _showActiveSelected; }
+			set { _showActiveSelected = value; NotifyOfPropertyChange("ShowActiveSelected"); }
+		}
+		bool _showActiveSelected;
+
+		public bool ShowCompletedSelected {
+			get { return _showCompletedSelected; }
+			set { _showCompletedSelected = value; NotifyOfPropertyChange("ShowCompletedSelected"); }
+		}
+		bool _showCompletedSelected;
+		#endregion Filtering
 
 		public void Handle(TaskDeleteMessage message) {
 			if(message.task != null) {

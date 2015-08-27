@@ -6,7 +6,7 @@
         xmlns:vm="clr-namespace:TODOMVVM.ViewModels"
         WindowStartupLocation="CenterScreen"
         Style="{DynamicResource MainWindowStyle}"
-        Width="600" SizeToContent="Height">
+        Width="600" MinWidth="550" SizeToContent="Height" >
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -31,18 +31,25 @@
         <ItemsControl ItemsSource="{Binding TodoList}" Visibility="{Binding HasTasks, Converter={StaticResource BooleanToVisibilyConverter}}" ItemTemplate="{StaticResource TodoTaskDataTemplate}"/>
 
         <Border Visibility="{Binding HasTasks, Converter={StaticResource BooleanToVisibilyConverter}}" Style="{StaticResource FooterStyle}">
-            <DockPanel LastChildFill="False">
-                <TextBlock DockPanel.Dock="Left" Style="{StaticResource ClearCompletedButtonStyle}">
+            <Grid>
+                <TextBlock  Style="{StaticResource ItemsLeftTextStyle}">
                     <Run Text="{Binding IncompletedCount, Mode=OneWay}" FontWeight="Bold"/>
                     <Run Text="{Binding ItemsLeftText, Mode=OneWay}"/>
                 </TextBlock>
-                <TextBlock DockPanel.Dock="Right" Style="{StaticResource ClearCompletedButtonStyle}" 
+
+                <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <RadioButton GroupName="Filter" IsChecked="{Binding ShowAllSelected}" Content="All" Style="{StaticResource FilterRadioButton}"/>
+                    <RadioButton GroupName="Filter" IsChecked="{Binding ShowActiveSelected}" Content="Active" Style="{StaticResource FilterRadioButton}"/>
+                    <RadioButton GroupName="Filter" IsChecked="{Binding ShowCompletedSelected}" Content="Completed" Style="{StaticResource FilterRadioButton}"/>
+                </StackPanel>
+
+                <TextBlock  Style="{StaticResource ClearCompletedButtonStyle}" 
                            Visibility="{Binding HasCompletedTasks, Converter={StaticResource BooleanToVisibilyConverter}}" cal:Message.Attach="[MouseLeftButtonDown]=[DoClearCompleted]">
                     <Run Text="Clear completed ("/>
                     <Run Text="{Binding CompletedCount, Mode=OneWay}"/>
                     <Run Text=")"/>
                 </TextBlock>
-            </DockPanel>
+            </Grid>
         </Border>
     </StackPanel>
 </Window>

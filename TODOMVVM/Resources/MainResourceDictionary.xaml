@@ -31,11 +31,18 @@
         <Setter Property="TextDecorations" Value="None"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Right"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="TextDecorations" Value="Underline"/>
             </Trigger>
         </Style.Triggers>
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="ItemsLeftTextStyle">
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
     </Style>
 
     <Style TargetType="Border" x:Key="FooterStyle">
@@ -44,4 +51,38 @@
         <Setter Property="Height" Value="50"/>
     </Style>
 
+    <Style TargetType="RadioButton" x:Key="FilterRadioButton">
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="7 3 7 3"/>
+        <Setter Property="Margin" Value="3 0 3 0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RadioButton">
+                    <Border Name="Border" CornerRadius="3" BorderBrush="{TemplateBinding BorderBrush}" SnapsToDevicePixels="True"
+                            BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}" Margin="{TemplateBinding Margin}">
+                        <ContentPresenter 
+                            Content="{TemplateBinding Content}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="BorderBrush" Value="#efd5d5"/>
+            </Trigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsMouseOver" Value="True"/>
+                    <Condition Property="IsChecked" Value="False"/>
+                </MultiTrigger.Conditions>
+                <Setter Property="BorderBrush" Value="#f7eaea"/>
+            </MultiTrigger>
+        </Style.Triggers>
+    </Style>
+    
 </ResourceDictionary>

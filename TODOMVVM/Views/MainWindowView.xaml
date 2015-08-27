@@ -36,7 +36,8 @@
                     <Run Text="{Binding IncompletedCount, Mode=OneWay}" FontWeight="Bold"/>
                     <Run Text="{Binding ItemsLeftText, Mode=OneWay}"/>
                 </TextBlock>
-                <TextBlock DockPanel.Dock="Right" Style="{StaticResource ClearCompletedButtonStyle}" cal:Message.Attach="[MouseLeftButtonDown]=[DoClearCompleted]">
+                <TextBlock DockPanel.Dock="Right" Style="{StaticResource ClearCompletedButtonStyle}" 
+                           Visibility="{Binding HasCompletedTasks, Converter={StaticResource BooleanToVisibilyConverter}}" cal:Message.Attach="[MouseLeftButtonDown]=[DoClearCompleted]">
                     <Run Text="Clear completed ("/>
                     <Run Text="{Binding CompletedCount, Mode=OneWay}"/>
                     <Run Text=")"/>

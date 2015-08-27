@@ -52,6 +52,10 @@ namespace TODOMVVM.ViewModels {
 		public bool HasTasks {
 			get { return TodoList.Any(); }
 		}
+
+		public bool HasCompletedTasks {
+			get { return TodoList.Any(t=>t.IsCompleted); }
+		}
 		#endregion Public properties
 
 		public MainWindowViewModel(IEventAggregator eventAggregator) {
@@ -98,6 +102,7 @@ namespace TODOMVVM.ViewModels {
 			NotifyOfPropertyChange("CompletedCount");
 			NotifyOfPropertyChange("IncompletedCount");
 			NotifyOfPropertyChange("HasTasks");
+			NotifyOfPropertyChange("HasCompletedTasks");
 			NotifyOfPropertyChange("ItemsLeftText");
 		}
 

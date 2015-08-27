@@ -54,12 +54,12 @@ namespace TODOMVVM.ViewModels {
 	    public void OnMouseDoubleClick(MouseButtonEventArgs e) {
             IsInEditMode = true;
             OldTaskText = TaskText;
-        }
+	    }
 
         public void SaveChanges() {
             TaskText = TaskText.Trim();
             if (string.IsNullOrEmpty(TaskText)) {
-                TaskText = OldTaskText;
+                DeleteTask();
                 return;
             }
 				

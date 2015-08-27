@@ -16,7 +16,7 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <StackPanel Name="Root" Margin="10" FocusManager.FocusedElement="{Binding ElementName=TaskInput}">
+    <StackPanel Name="Root" Margin="10" FocusManager.FocusedElement="{Binding ElementName=TaskInput}" cal:Message.Attach="[Shortcut Enter] = [EnterClicked];[Shortcut Escape] = [EscapeClicked]">
         <TextBlock Text="todos" Style="{StaticResource HeaderTextBlockStyle}"/>
         <Grid Height="65" Background="#fefefe" >
             <Grid.ColumnDefinitions>
@@ -26,55 +26,9 @@
             <CheckBox Grid.Column="0" Content="" IsChecked="{Binding IsMarkAllChecked}" cal:Message.Attach="OnMarkAllClicked"
                       Style="{StaticResource MarkAllCheckBox}" Visibility="{Binding HasTasks, Converter={StaticResource BooleanToVisibilyConverter}}"/>
             <infrastructure:WatermarkTextBox x:Name="TaskInput" Grid.Column="1" Text="{Binding NewToDoText, UpdateSourceTrigger=PropertyChanged}" WatermarkText="What needs to be done?"
-                     Style="{StaticResource AddNewToDoTextBoxStyle}" cal:Message.Attach="[Shortcut Enter] = [AddTaskToList]"/>
+                     Style="{StaticResource AddNewToDoTextBoxStyle}" />
         </Grid>
         <ItemsControl ItemsSource="{Binding TodoList}" Visibility="{Binding HasTasks, Converter={StaticResource BooleanToVisibilyConverter}}" ItemTemplate="{StaticResource TodoTaskDataTemplate}"/>
-        <!--<ItemsControl ItemsSource="{Binding TodoList}" Visibility="{Binding HasTasks, Converter={StaticResource BooleanToVisibilyConverter}}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type vm:TodoTaskViewModel}">
-                    <StackPanel>
-                        <Border Visibility="{Binding IsInEditMode, Converter={StaticResource BooleanToVisibityInvertedConverter}}"
-                Style="{StaticResource TaskBorderStyle}" cal:Message.Attach="[MouseLeftButtonDown]=[OnMouseLeftButtonDown($eventArgs)]">
-                            <Grid >
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="40"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="*"/>
-
-                                </Grid.RowDefinitions>
-
-                                <Rectangle Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" Stroke="DimGray" Height="1" StrokeThickness="1" StrokeDashArray="1 4" SnapsToDevicePixels="True"/>
-
-                                <CheckBox Grid.Column="0" Grid.Row="1" Content="" IsChecked="{Binding IsCompleted}" cal:Message.Attach="InformTaskCompleted" Style="{StaticResource CompleteTaskCheckBox}"/>
-                                <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding TaskText}" Style="{StaticResource TaskMessageStyle}"/>
-                                <Button Grid.Column="2" Grid.Row="1" Name="DeleteButton" Style="{StaticResource DeleteTaskButtonStyle}" Visibility="Collapsed" cal:Message.Attach="DeleteTask"/>
-
-                            </Grid>
-                        </Border>
-                        <Border Name="EditorBorder" Visibility="{Binding IsInEditMode, Converter={StaticResource BooleanToVisibilyConverter}}"
-                Style="{StaticResource TaskBorderStyle}">
-                            <Grid>
-                                <TextBox Name="TaskEditor" Text="{Binding NewTaskText}" Style="{StaticResource TaskEditTextBoxStyle}" 
-                             cal:Message.Attach="[LostFocus]=[DiscardChanges]; [LostKeyboardFocus]=[DiscardChanges];"/>
-                            </Grid>
-                        </Border>
-                    </StackPanel>
-
-                    <DataTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="DeleteButton" Property="Visibility" Value="Visible"/>
-                        </Trigger>
-                        <DataTrigger Binding="{Binding IsInEditMode}" Value="True">
-                            <Setter TargetName="EditorBorder" Property="FocusManager.FocusedElement" Value="{Binding ElementName=TaskEditor}"/>
-                        </DataTrigger>
-                    </DataTemplate.Triggers>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>-->
 
         <Border Visibility="{Binding HasTasks, Converter={StaticResource BooleanToVisibilyConverter}}" Style="{StaticResource FooterStyle}">
             <DockPanel LastChildFill="False">

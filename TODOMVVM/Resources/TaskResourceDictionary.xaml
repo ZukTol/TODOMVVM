@@ -55,8 +55,27 @@
     <Style TargetType="TextBox" x:Key="TaskEditTextBoxStyle">
         <Setter Property="FontSize" Value="24"/>
     </Style>
-    
-    <DataTemplate x:Key="TodoTaskDataTemplate" DataType="{x:Type vm:TodoTaskViewModel}">
+
+    <Style TargetType="TextBox" x:Key="TaskEditorReadOnlyStyle">
+        <Setter Property="IsReadOnly" Value="True"/>
+        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="TextAlignment" Value="Left"/>
+    </Style>
+
+    <Style TargetType="TextBox" x:Key="TaskEditorEditModeStyle">
+        <Setter Property="IsReadOnly" Value="False"/>
+        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="Aqua"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="TextAlignment" Value="Left"/>
+    </Style>
+
+    <DataTemplate x:Key="TodoTaskDataTemplate1" DataType="{x:Type vm:TodoTaskViewModel}">
         <StackPanel>
             <Border Visibility="{Binding IsInEditMode, Converter={StaticResource BooleanToVisibityInvertedConverter}}"
                 Style="{StaticResource TaskBorderStyle}" cal:Message.Attach="[MouseLeftButtonDown]=[OnMouseLeftButtonDown($eventArgs)]">
@@ -95,6 +114,48 @@
             </Trigger>
             <DataTrigger Binding="{Binding IsInEditMode}" Value="True">
                 <Setter TargetName="EditorBorder" Property="FocusManager.FocusedElement" Value="{Binding ElementName=TaskEditor}"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate x:Key="TodoTaskDataTemplate" DataType="{x:Type vm:TodoTaskViewModel}">
+        <Border Style="{StaticResource TaskBorderStyle}" >
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+
+                </Grid.RowDefinitions>
+
+                <Rectangle Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" Stroke="DimGray" Height="1" StrokeThickness="1" StrokeDashArray="1 4" SnapsToDevicePixels="True"/>
+
+                <CheckBox Grid.Column="0" Grid.Row="1" Content="" IsChecked="{Binding IsCompleted}" 
+                          cal:Message.Attach="InformTaskCompleted" Style="{StaticResource CompleteTaskCheckBox}" 
+                          Visibility="{Binding IsInEditMode, Converter={StaticResource BooleanToVisibityInvertedConverter}}"/>
+                
+                <TextBox Grid.Column="1" Grid.Row="1" Name="TaskEditor" Text="{Binding TaskText, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TaskEditorReadOnlyStyle}"
+                         cal:Message.Attach="[MouseDoubleClick]=[OnMouseDoubleClick($eventArgs)];[LostFocus]=[DiscardChanges];[LostKeyboardFocus]=[DiscardChanges]" />
+                
+                <Button Grid.Column="2" Grid.Row="1" Name="DeleteButton" Style="{StaticResource DeleteTaskButtonStyle}" Visibility="Collapsed" cal:Message.Attach="DeleteTask"/>
+
+            </Grid>
+        </Border>
+        <DataTemplate.Triggers>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsInEditMode}" Value="False"/>
+                    <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver}" Value="True"/>
+                </MultiDataTrigger.Conditions>
+                <Setter TargetName="DeleteButton" Property="Visibility" Value="Visible"/>
+            </MultiDataTrigger>
+            
+            <DataTrigger Binding="{Binding IsInEditMode}" Value="True">
+                <Setter TargetName="TaskEditor" Property="Style" Value="{StaticResource TaskEditorEditModeStyle}"/>
             </DataTrigger>
         </DataTemplate.Triggers>
     </DataTemplate>

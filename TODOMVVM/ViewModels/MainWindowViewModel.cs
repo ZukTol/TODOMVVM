@@ -60,7 +60,7 @@ namespace TODOMVVM.ViewModels {
             if (string.IsNullOrEmpty(NewToDoText))
 				return;
 
-			var task = new TodoTaskViewModel(_eventAggregator) { TaskText = NewToDoText, IsCompleted = false, IsInEditMode = false };
+			var task = new TodoTaskViewModel(_eventAggregator) { TaskText = NewToDoText, OldTaskText = NewToDoText, IsCompleted = false, IsInEditMode = false };
 
             TodoList.Add(task);
 
@@ -102,5 +102,22 @@ namespace TODOMVVM.ViewModels {
 				UpdateLabels();
             }
 		}
-	}
+
+        public void EnterClicked() {
+            var editedTask = TodoList.FirstOrDefault(t => t.IsInEditMode);
+            if (editedTask == null) {
+                AddTaskToList();
+            }
+            else {
+                editedTask.SaveChanges();
+            }
+        }
+
+        public void EscapeClicked() {
+            var editedTask = TodoList.FirstOrDefault(t => t.IsInEditMode);
+            if (null != editedTask) {
+                editedTask.DiscardChanges();
+            }
+        }
+    }
 }

@@ -31,10 +31,10 @@ namespace TODOMVVM.ViewModels {
 			set { _taskText = value; NotifyOfPropertyChange("TaskText"); }
 		} string _taskText;
 
-		public string NewTaskText {
-			get { return _newTaskText; }
-			set { _newTaskText = value; NotifyOfPropertyChange("NewTaskText"); }
-		} string _newTaskText;
+		public string OldTaskText {
+			get { return _oldTaskText; }
+			set { _oldTaskText = value; NotifyOfPropertyChange("OldTaskText"); }
+		} string _oldTaskText;
 
 		public TodoTaskViewModel(IEventAggregator eventAggregator) {
             _eventAggregator = eventAggregator;
@@ -51,24 +51,25 @@ namespace TODOMVVM.ViewModels {
 			_eventAggregator.PublishOnUIThread(new TaskDeleteMessage { task = this });
         }
 
-		public void OnMouseLeftButtonDown(MouseButtonEventArgs e) {
-			if(e.ClickCount == 2) {
-				IsInEditMode = true;
-				NewTaskText = TaskText;
-			}
-		}
+	    public void OnMouseDoubleClick(MouseButtonEventArgs e) {
+            IsInEditMode = true;
+            OldTaskText = TaskText;
+        }
 
-		public void SaveChanges() {
-			NewTaskText = NewTaskText.Trim();
-			if (string.IsNullOrEmpty(NewTaskText))
-				return;
+        public void SaveChanges() {
+            TaskText = TaskText.Trim();
+            if (string.IsNullOrEmpty(TaskText)) {
+                TaskText = OldTaskText;
+                return;
+            }
+				
 
-			TaskText = NewTaskText;
+			OldTaskText = TaskText;
 			IsInEditMode = false;
 		}
 
 		public void DiscardChanges() {
-			NewTaskText = string.Empty;
+		    TaskText = OldTaskText;
 			IsInEditMode = false;
         }
     }

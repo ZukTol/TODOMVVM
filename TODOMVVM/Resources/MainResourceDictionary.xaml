@@ -62,7 +62,7 @@
                 <ControlTemplate TargetType="RadioButton">
                     <Border Name="Border" CornerRadius="3" BorderBrush="{TemplateBinding BorderBrush}" SnapsToDevicePixels="True"
                             BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}" Margin="{TemplateBinding Margin}">
-                        <ContentPresenter 
+                        <ContentPresenter
                             Content="{TemplateBinding Content}"
                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -74,6 +74,7 @@
         <Style.Triggers>
             <Trigger Property="IsChecked" Value="True">
                 <Setter Property="BorderBrush" Value="#efd5d5"/>
+                <Setter Property="FontWeight" Value="Bold"/>
             </Trigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>

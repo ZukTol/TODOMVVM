@@ -66,6 +66,9 @@ namespace TODOMVVM.ViewModels {
         }
 
         public void DoClearCompleted() {
+			if (!TodoList.Any())
+				return;
+
             for (int i = TodoList.Count - 1; i >= 0; i--) {
                 if(TodoList[i].IsCompleted)
                     TodoList.RemoveAt(i);

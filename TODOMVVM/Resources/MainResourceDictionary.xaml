@@ -85,5 +85,11 @@
             </MultiTrigger>
         </Style.Triggers>
     </Style>
-    
+
+    <Style TargetType="TextBlock" x:Key="UnderfooterStyle">
+        <Setter Property="FontSize" Value="10"/>
+        <Setter Property="Foreground" Value="#BFBFBF"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="0 15 0 0"/>
+    </Style>
 </ResourceDictionary>

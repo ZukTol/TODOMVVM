@@ -63,7 +63,6 @@ namespace TODOMVVM.ViewModels {
                 return;
             }
 				
-
 			OldTaskText = TaskText;
 			IsInEditMode = false;
 		}

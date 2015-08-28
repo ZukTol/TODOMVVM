@@ -51,5 +51,7 @@
                 </TextBlock>
             </Grid>
         </Border>
+
+        <TextBlock Text="Double-click to edit a todo" Style="{StaticResource UnderfooterStyle}"/>
     </StackPanel>
 </Window>
